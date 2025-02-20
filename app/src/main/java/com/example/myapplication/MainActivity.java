@@ -28,30 +28,41 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        if (savedInstanceState != null) {
+            count = savedInstanceState.getInt("count");
+            Up = savedInstanceState.getBoolean("Up");
+        }
 
         Button button2 = findViewById(R.id.button2);
         button2.setOnClickListener(v -> {
-
-            if(Up == true){
+            if(Up) {
                 Up = false;
                 button2.setBackgroundColor(Color.RED);
-            }
-            else{
+            } else {
                 Up = true;
                 button2.setBackgroundColor(Color.GREEN);
             }
         });
-    }
 
+        // Обновить текст при восстановлении состояния
+        TextView txt = findViewById(R.id.txtCounter);
+        txt.setText(count.toString());
+    }
 
     public void onClickBatton(View view) {
         count++;
         TextView txt = findViewById(R.id.txtCounter);
         txt.setText(count.toString());
 
-
         if (Up) {
             count++;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("count", count);
+        outState.putBoolean("Up", Up);
     }
 }
